@@ -260,7 +260,7 @@ class Createmap {
         room.mx = mx + room.x;
         break;
       }else {
-        room.mx = mx + room.x;
+        room.mx = mx;
       }
     }
 
@@ -283,6 +283,45 @@ class Createmap {
     console.log("rx = " + rx);
     console.log("ry = " + ry);
 
+    room.x = room.mx + 1;
+
+    for (var my = room.y; my < this.map.length; my++){
+      if (this.map[my][room.x] === 2){
+        room.my = my - room.y;
+        break;
+      }else {
+        room.my = my - room.y;
+        if (this.map.length === my){
+          room.map_bottom = true;
+        }
+      }
+    }
+    for (var mx = room.x; mx < this.map[room.y].length; mx++){
+      if (this.map[room.y][mx] === 2){
+        room.mx = mx - room.x;
+        break;
+      }else {
+        room.mx = mx - room.x;
+      }
+    }
+
+    var rx = Math.floor((Math.random()*room.mx/2)) + Math.floor(room.mx/2);
+    var ry = Math.floor((Math.random()*room.my/2)) + Math.floor(room.my/2);
+    var rand = Math.floor(Math.random()*3 + 2);
+
+    for (var i = room.y; i < room.y + ry; i++){
+      for (var j = room.x; j < room.x + rx; j++){
+        this.map[i][j] = 0;
+      }
+    }
+
+    console.log("room.x = " + room.x);
+    console.log("room.y = " + room.y);
+    console.log("room.mx = " + room.mx);
+    console.log("room.my = " + room.my);
+    console.log("rx = " + rx);
+    console.log("ry = " + ry);
+
 
   }
 
@@ -297,7 +336,7 @@ setInterval(function () {
         create.map[y][x] = "■";
       }else if (create.map[y][x] === 2){
         create.map[y][x] = "@";
-      }else {
+      }else if (create.map[y][x] === 0){
         create.map[y][x] = "□";
       }
     }
