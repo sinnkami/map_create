@@ -276,12 +276,6 @@ class Createmap {
         this.map[i][j] = 0;
       }
     }
-    console.log("room.x = " + room.x);
-    console.log("room.y = " + room.y);
-    console.log("room.mx = " + room.mx);
-    console.log("room.my = " + room.my);
-    console.log("rx = " + rx);
-    console.log("ry = " + ry);
 
     room.x = room.mx + 1;
 
@@ -315,12 +309,12 @@ class Createmap {
       }
     }
 
-    console.log("room.x = " + room.x);
-    console.log("room.y = " + room.y);
-    console.log("room.mx = " + room.mx);
-    console.log("room.my = " + room.my);
-    console.log("rx = " + rx);
-    console.log("ry = " + ry);
+    // console.log("room.x = " + room.x);
+    // console.log("room.y = " + room.y);
+    // console.log("room.mx = " + room.mx);
+    // console.log("room.my = " + room.my);
+    // console.log("rx = " + rx);
+    // console.log("ry = " + ry);
 
 
   }
@@ -328,7 +322,7 @@ class Createmap {
 }
 
 setInterval(function () {
-  var create = new Createmap(50,50,10);
+  var create = new Createmap(30,30,10);
 
   for(var y = 0; y < create.map.length; y++){
     for(var x = 0; x < create.map[y].length; x++){
@@ -342,4 +336,5 @@ setInterval(function () {
     }
     console.log(create.map[y].join(" "));
   }
+  console.log("");
 }, 1000);
