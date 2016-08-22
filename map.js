@@ -10,314 +10,108 @@ class Createmap {
         this.map[y][x] = 9;
       }
     }
-    this.sprit_equal();
+    this.sprit_equal(1);
     this.room_create();
   }
 
-  sprit_equal() {
-    var self = 0;
-    var rand = Math.floor(Math.random() * 2);
-    var sign = Math.floor(Math.random() * 2) ? -Math.floor(Math.random()*3) : Math.floor(Math.random()*3);
-
-    if (rand === 0){
-
-      for (var i = 0; i < this.map.length; i++){
-        this.map[i][Math.floor(this.map[i].length / 2) + sign] = 2;
-      }
-
-      self = Math.floor(this.map[0].length / 2 + sign);
-      rand = Math.floor(Math.random() * this.map.length);
-      if (rand > this.map.length - this.minimum){
-        rand -= this.minimum;
-      }else if (rand < this.minimum) {
-        rand += this.minimum;
-      }
-
-      if (self > this.map[0].length / 2){
-
-        for (var i = 0; i < this.map[0].length; i++){
-          if (this.map[rand][i] === 2){
-            self = i;
-            break;
-          }
-          this.map[rand][i] = 2;
-        }
-
-        if (rand > Math.floor(this.map.length / 2)){
-          var rand = Math.floor(self/2);
-
-          for (var i = 0; i < this.map.length; i++){
-            if (this.map[i][rand] === 2){
-              break;
-            }
-            this.map[i][rand] = 2;
-          }
-        }else {
-          var rand = Math.floor(self/2);
-
-          for (var i = this.map.length-1; i > 0; i--){
-            if (this.map[i][rand] === 2){
-              break;
-            }
-            this.map[i][rand] = 2;
-          }
-        }
-
-      }else {
-
-        for (var i = this.map[0].length-1; i > 0; i--){
-          if (this.map[rand][i] === 2){
-            self = i;
-            break;
-          }
-          this.map[rand][i] = 2;
-        }
-
-        if (rand > Math.floor(this.map.length / 2)){
-          var rand = Math.floor(self/2 + this.map[0].length / 2);
-
-          for (var i = 0; i < this.map.length; i++){
-            if (this.map[i][rand] === 2){
-              break;
-            }
-            this.map[i][rand] = 2;
-          }
-        }else {
-          var rand = Math.floor(self/2 + this.map[0].length / 2);
-
-          for (var i = this.map.length-1; i > 0; i--){
-            if (this.map[i][rand] === 2){
-              break;
-            }
-            this.map[i][rand] = 2;
-          }
-        }
-      }
-
-      self = Math.floor(this.map[0].length / 2 + sign);
-      rand = Math.floor(Math.random() * 2);
-      if (self > this.map[0].length / 2) {
-        rand = Math.floor(Math.random()*this.map.length);
-        if (rand > this.map.length - this.minimum){
-          rand -= this.minimum;
-        }else if (rand < this.minimum) {
-          rand += this.minimum;
-        }
-
-        for (var i = this.map[0].length-1; i > 0; i--){
-          if (this.map[rand][i] === 2){
-            break;
-          }
-          this.map[rand][i] = 2;
-        }
-      }else {
-        rand = Math.floor(Math.random()*this.map.length);
-        if (rand > this.map.length - this.minimum){
-          rand -= this.minimum;
-        }else if (rand < this.minimum) {
-          rand += this.minimum;
-        }
-        for (var i = 0; i < this.map[0].length; i++){
-          if (this.map[rand][i] === 2){
-            break;
-          }
-          this.map[rand][i] = 2;
-        }
-      }
-
-
-    }else if (rand === 1) {
-
-      for (var i = 0; i < this.map[Math.floor(this.map.length / 2)].length; i++){
-        this.map[Math.floor(this.map.length / 2) + sign][i] = 2;
-      }
-
-      self = Math.floor(this.map[0].length / 2 + sign);
-      rand = Math.floor(Math.random() * this.map[0].length);
-      if (rand > this.map[0].length - this.minimum){
-        rand -= this.minimum;
-      }else if (rand < this.minimum) {
-        rand += this.minimum;
-      }
-
-      if (self > this.map[0].length / 2){
-
-        for (var i = 0; i < this.map.length; i++){
-          if (this.map[i][rand] === 2){
-            self = i;
-            break;
-          }
-          this.map[i][rand] = 2;
-        }
-
-        if (rand > Math.floor(this.map.length / 2)){
-          var rand = Math.floor(self/2);
-
-          for (var i = 0; i < this.map[0].length; i++){
-            if (this.map[rand][i] === 2){
-              break;
-            }
-            this.map[rand][i] = 2;
-          }
-        }else {
-          var rand = Math.floor(self/2);
-
-          for (var i = this.map[0].length-1; i > 0; i--){
-            if (this.map[rand][i] === 2){
-              break;
-            }
-            this.map[rand][i] = 2;
-          }
-        }
-
-      }else {
-
-        for (var i = this.map.length-1; i > 0; i--){
-          if (this.map[i][rand] === 2){
-            self = i;
-            break;
-          }
-          this.map[i][rand] = 2;
-        }
-
-        if (rand > Math.floor(this.map[0].length / 2)){
-          var rand = Math.floor(self/2 + this.map.length / 2);
-
-          for (var i = 0; i < this.map.length; i++){
-            if (this.map[rand][i] === 2){
-              break;
-            }
-            this.map[rand][i] = 2;
-          }
-        }else {
-          var rand = Math.floor(self/2 + this.map[0].length / 2);
-
-          for (var i = this.map.length-1; i > 0; i--){
-            if (this.map[rand][i] === 2){
-              break;
-            }
-            this.map[rand][i] = 2;
-          }
-        }
-      }
-
-      self = Math.floor(this.map[0].length / 2 + sign);
-      rand = Math.floor(Math.random() * 2);
-      if (self > this.map.length / 2) {
-        rand = Math.floor(Math.random()*this.map[0].length);
-        if (rand > this.map[0].length - this.minimum){
-          rand -= this.minimum;
-        }else if (rand < this.minimum) {
-          rand += this.minimum;
-        }
-
-        for (var i = this.map.length-1; i > 0; i--){
-          if (this.map[i][rand] === 2){
-            break;
-          }
-          this.map[i][rand] = 2;
-        }
-      }else {
-        rand = Math.floor(Math.random()*this.map[0].length);
-        if (rand > this.map[0].length - this.minimum){
-          rand -= this.minimum;
-        }else if (rand < this.minimum) {
-          rand += this.minimum;
-        }
-        for (var i = 0; i < this.map.length; i++){
-          if (this.map[i][rand] === 2){
-            break;
-          }
-          this.map[i][rand] = 2;
-        }
-      }
-    }
-  }
-
-  room_create(room) {
-    console.log("aaaa");
-
-    if (room === undefined){
-      var room = {
-        x : 2,
-        y : 2,
-        mx : null,
-        my : null,
-        map_bottom : false,
-        map_right : false,
-      }
-    }
-
-    console.log(room);
-    room.map_bottom = room.y >= this.map.length ? true : false;
-
-    if (room.map_bottom === true){
-      console.log("return");
+  sprit_equal(count, x, y, mx, my, direction, first) {
+    if (count < 0){
       return;
     }
 
-    for (var my = room.y; my < this.map.length; my++){
-      if (this.map[my][room.x] === 2){
-        room.my = my - room.y;
-        break;
-      }else {
-        room.my = my - room.y;
-        if (this.map.length === my){
-          room.map_bottom = true;
-        }
-      }
-    }
-    for (var mx = room.x; mx < this.map[room.y].length; mx++){
-      if (this.map[room.y][mx] === 2){
-        room.mx = mx - room.x;
-        break;
-      }else {
-        room.mx = mx - room.x;
-        if (this.map[0].length === mx){
-          room.map_right = true;
-        }
-      }
-    }
-
-    if (room.mx < 5){
-      room.mx = 5;
-    }
-    if (room.my < 5){
-      room.my = 5;
-    }
+    console.log(count);
+    console.log("x = " + x);
+    console.log("y = " + y);
+    console.log("mx = " + mx);
+    console.log("my = " + my);
+    console.log(first);
 
 
-    var rx = Math.floor((Math.random()*room.mx/2)) + Math.floor(room.mx/2);
-    var ry = Math.floor((Math.random()*room.my/2)) + Math.floor(room.my/2);
-
-    if (rx < 5){
-      rx = 5
-    }
-    if (ry < 5){
-      ry = 5;
-    }
-
-    for (var i = room.y; i < room.y + ry + 1; i++){
-      for (var j = room.x; j < room.x + rx + 1; j++){
-        this.map[i][j] = 0;
-      }
-    }
-
-    room.x = room.x + room.mx + 2;
-
-    if (room.x > this.map[0].length - 1){
-      console.log("x init");
-
-      room.y = room.y + room.my + 2;
-      room.x = 2;
-      this.room_create(room);
+    if (direction === 0){
+      direction = 1;
+    }else if (direction === 1) {
+      direction = 0;
     }else {
-      this.room_create(room);
+      direction = Math.floor(Math.random()*2);
     }
 
+    if (x||y||mx||my){
+      console.log("2nd");
+      if (direction === 0){
+        var rand_x = Math.floor(Math.random()*mx);
+        for (var y = y; y < my; y++){
+          this.map[y][rand_x] = 2;
+        }
+        var rand = Math.floor(Math.random()*2);
+        if (rand === 0 && x+rand_x < mx){
+          x += rand_x;
+        }else if (rand === 1 && mx-rand_x < x){
+          mx -= rand_x;
+        }
+      }else {
+        var rand_y = Math.floor(Math.random()*my);
+        for (var x = x; x < mx; x++){
+          this.map[rand_y][x] = 2;
+        }
+        var rand = Math.floor(Math.random()*2);
+        if (rand === 0 && y+rand_y < my){
+          y += rand_y;
+        }else if (rand === 1 && my-rand_y < y){
+          my -= rand_y;
+        }
+      }
+
+      return this.sprit_equal(count-1, x, y, mx, my, direction, first);
+
+    }else {
+      console.log("1st");
+      var x = 0;
+      var y = 0;
+      var mx = this.map[x].length;
+      var my = this.map.length;
+      var first = {};
+
+      if (direction === 0){
+        var rand_x = Math.floor(Math.random()*mx);
+        if (rand_x > mx - this.minimum){ rand_x -= this.minimum; }else if (rand_x < this.minimum){ rand_x += this.minimum; }
+        for (var fy = y; fy < my; fy++){
+          this.map[fy][rand_x] = 2;
+        }
+        var rand = Math.floor(Math.random()*2);
+        first.x = rand_x;
+        if (rand === 0){
+          x += rand_x;
+          first.x_direction = rand;
+        }else if (rand === 1){
+          mx = fy - (fy - rand_x);
+          first.x_direction = rand;
+        }
+      }else {
+        var rand_y = Math.floor(Math.random()*my);
+        if (rand_y > my - this.minimum){ rand_y -= this.minimum; }else if (rand_y < this.minimum){ rand_y += this.minimum; }
+        for (var fx = x; fx < mx; fx++){
+          this.map[rand_y][fx] = 2;
+        }
+        var rand = Math.floor(Math.random()*2);
+        first.y = rand_y;
+        if (rand === 0){
+          y += rand_y;
+          first.y_direction = rand;
+        }else if (rand === 1){
+          my = fx - (fx - rand_y);
+          first.y_direction = rand;
+        }
+      }
+      return this.sprit_equal(count-1, x, y, mx, my, direction, first);
+    }
+  }
+
+  room_create() {
+    return
   }
 
 }
+
 
 var count = 0;
 setInterval(function () {
