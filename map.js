@@ -234,50 +234,27 @@ class Createmap {
     }
   }
 
-  room_create() {
-    var room = {
-      x : 2,
-      y : 2,
-      mx : null,
-      my : null,
-      map_bottom : false,
-      map_right : false
-    }
+  room_create(room) {
+    console.log("aaaa");
 
-    for (var my = room.y; my < this.map.length; my++){
-      if (this.map[my][room.x] === 2){
-        room.my = my + room.y;
-        break;
-      }else {
-        room.my = my + room.y;
-        if (this.map.length === my){
-          room.map_bottom = true;
-        }
-      }
-    }
-    for (var mx = room.x; mx < this.map[room.y].length; mx++){
-      if (this.map[room.y][mx] === 2){
-        room.mx = mx + room.x;
-        break;
-      }else {
-        room.mx = mx;
+    if (room === undefined){
+      var room = {
+        x : 2,
+        y : 2,
+        mx : null,
+        my : null,
+        map_bottom : false,
+        map_right : false,
       }
     }
 
-    var rx = Math.floor((Math.random()*room.mx/2)) + Math.floor(room.mx/2);
-    var ry = Math.floor((Math.random()*room.my/2)) + Math.floor(room.my/2);
-    var rand = Math.floor(Math.random()*3 + 2);
+    console.log(room);
+    room.map_bottom = room.y >= this.map.length ? true : false;
 
-    if (rx < 5){ rx += 5; }else if (rx > room.mx - 2){ rx -= 2; }
-    if (ry < 5){ ry += 5; }else if (ry > room.my - 2){ ry -= 2; }
-
-    for (var i = room.y; i < ry; i++){
-      for (var j = room.x; j < rx; j++){
-        this.map[i][j] = 0;
-      }
+    if (room.map_bottom === true){
+      console.log("return");
+      return;
     }
-
-    room.x = room.mx + 1;
 
     for (var my = room.y; my < this.map.length; my++){
       if (this.map[my][room.x] === 2){
@@ -296,33 +273,56 @@ class Createmap {
         break;
       }else {
         room.mx = mx - room.x;
+        if (this.map[0].length === mx){
+          room.map_right = true;
+        }
       }
     }
 
+    if (room.mx < 5){
+      room.mx = 5;
+    }
+    if (room.my < 5){
+      room.my = 5;
+    }
+
+
     var rx = Math.floor((Math.random()*room.mx/2)) + Math.floor(room.mx/2);
     var ry = Math.floor((Math.random()*room.my/2)) + Math.floor(room.my/2);
-    var rand = Math.floor(Math.random()*3 + 2);
 
-    for (var i = room.y; i < room.y + ry; i++){
-      for (var j = room.x; j < room.x + rx; j++){
+    if (rx < 5){
+      rx = 5
+    }
+    if (ry < 5){
+      ry = 5;
+    }
+
+    for (var i = room.y; i < room.y + ry + 1; i++){
+      for (var j = room.x; j < room.x + rx + 1; j++){
         this.map[i][j] = 0;
       }
     }
 
-    // console.log("room.x = " + room.x);
-    // console.log("room.y = " + room.y);
-    // console.log("room.mx = " + room.mx);
-    // console.log("room.my = " + room.my);
-    // console.log("rx = " + rx);
-    // console.log("ry = " + ry);
+    room.x = room.x + room.mx + 2;
 
+    if (room.x > this.map[0].length - 1){
+      console.log("x init");
+
+      room.y = room.y + room.my + 2;
+      room.x = 2;
+      this.room_create(room);
+    }else {
+      this.room_create(room);
+    }
 
   }
 
 }
 
+var count = 0;
 setInterval(function () {
-  var create = new Createmap(30,30,10);
+  count++;
+  var create = new Createmap(50,50,10);
 
   for(var y = 0; y < create.map.length; y++){
     for(var x = 0; x < create.map[y].length; x++){
@@ -336,5 +336,7 @@ setInterval(function () {
     }
     console.log(create.map[y].join(" "));
   }
+  console.log("");
+  console.log(count);
   console.log("");
 }, 1000);
