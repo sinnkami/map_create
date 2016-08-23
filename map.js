@@ -1,8 +1,7 @@
 class Createmap {
-  constructor(width,height,minimum) {
+  constructor(width,height) {
     this.width = width;
     this.height = height;
-    this.minimum = minimum;
     this.map = new Array(height);
     for (var y = 0; y < this.map.length; y++){
       this.map[y] = new Array(width);
@@ -10,100 +9,135 @@ class Createmap {
         this.map[y][x] = 9;
       }
     }
-    this.sprit_equal(1);
+    this.sprit_equal(5);
     this.room_create();
   }
 
-  sprit_equal(count, x, y, mx, my, direction, first) {
-    if (count < 0){
+  sprit_equal(count,direction) {
+    if (count < 1){
       return;
     }
 
-    console.log(count);
-    console.log("x = " + x);
-    console.log("y = " + y);
-    console.log("mx = " + mx);
-    console.log("my = " + my);
-    console.log(first);
-
-
-    if (direction === 0){
-      direction = 1;
-    }else if (direction === 1) {
-      direction = 0;
-    }else {
-      direction = Math.floor(Math.random()*2);
+    if (direction === undefined){
+      var direction = Math.floor(Math.random()*4);
+    }else if (direction === 0 || direction === 2){
+      var rand = Math.floor(Math.random()*2);
+      if (rand === 0){
+        direction = 1;
+      }else {
+        direction = 3;
+      }
+    }else if (direction === 1 || direction === 3){
+      var rand = Math.floor(Math.random()*2);
+      if (rand === 0){
+        direction = 0;
+      }else {
+        direction = 2;
+      }
     }
 
-    if (x||y||mx||my){
-      console.log("2nd");
-      if (direction === 0){
-        var rand_x = Math.floor(Math.random()*mx);
-        for (var y = y; y < my; y++){
-          this.map[y][rand_x] = 2;
+    var number = 0;
+
+    if (direction === 0){//上から下
+      while (true) {
+        number++
+        if (number > 100){ return this.sprit_equal(count-1,direction); }
+        var rand = Math.floor(Math.random()*this.map[0].length);
+        if (rand > this.map[rand].length-8){ rand -= 7; }else if(rand < 8){ rand += 7; }
+        if (this.map[0][rand] === 2 || this.map[0][rand-1] === 2 || this.map[0][rand-2] === 2 || this.map[0][rand-3] === 2 || this.map[0][rand-4] === 2 || this.map[0][rand-5] === 2 || this.map[0][rand-6] === 2 || this.map[0][rand-7] === 2){
+          continue;
         }
-        var rand = Math.floor(Math.random()*2);
-        if (rand === 0 && x+rand_x < mx){
-          x += rand_x;
-        }else if (rand === 1 && mx-rand_x < x){
-          mx -= rand_x;
+        if (this.map[0][rand] === 2 || this.map[0][rand+1] === 2 || this.map[0][rand+2] === 2 || this.map[0][rand+3] === 2 || this.map[0][rand+4] === 2 || this.map[0][rand+5] === 2 || this.map[0][rand+6] === 2 || this.map[0][rand+7] === 2){
+          continue;
         }
-      }else {
-        var rand_y = Math.floor(Math.random()*my);
-        for (var x = x; x < mx; x++){
-          this.map[rand_y][x] = 2;
-        }
-        var rand = Math.floor(Math.random()*2);
-        if (rand === 0 && y+rand_y < my){
-          y += rand_y;
-        }else if (rand === 1 && my-rand_y < y){
-          my -= rand_y;
+        break;
+
+      }
+
+      for (var i = 0; i < this.map.length; i++){
+        if (this.map[i][rand] === 2){
+          this.map[i][rand] = 2;
+          break;
+        }else {
+          this.map[i][rand] = 2;
         }
       }
 
-      return this.sprit_equal(count-1, x, y, mx, my, direction, first);
+    }else if (direction === 1) {//右から左
+      while (true) {
+        number++
+        if (number > 100){ return this.sprit_equal(count-1,direction); }
+        var rand = Math.floor(Math.random()*this.map[0].length);
+        if (rand > this.map[rand].length-8){ rand -= 7; }else if(rand < 8){ rand += 7; }
+        if (this.map[rand][0] === 2 || this.map[rand-1][0] === 2 || this.map[rand-2][0] === 2 || this.map[rand-3][0] === 2 || this.map[rand-4][0] === 2 || this.map[rand-5][0] === 2 || this.map[rand-6][0] === 2 || this.map[rand-7][0] === 2){
+          continue;
+        }
+        if (this.map[rand][0] === 2 || this.map[rand+1][0] === 2 || this.map[rand+2][0] === 2 || this.map[rand+3][0] === 2 || this.map[rand+4][0] === 2 || this.map[rand+5][0] === 2 || this.map[rand+6][0] === 2 || this.map[rand+7][0] === 2){
+          continue;
+        }
+        break;
 
-    }else {
-      console.log("1st");
-      var x = 0;
-      var y = 0;
-      var mx = this.map[x].length;
-      var my = this.map.length;
-      var first = {};
+      }
 
-      if (direction === 0){
-        var rand_x = Math.floor(Math.random()*mx);
-        if (rand_x > mx - this.minimum){ rand_x -= this.minimum; }else if (rand_x < this.minimum){ rand_x += this.minimum; }
-        for (var fy = y; fy < my; fy++){
-          this.map[fy][rand_x] = 2;
-        }
-        var rand = Math.floor(Math.random()*2);
-        first.x = rand_x;
-        if (rand === 0){
-          x += rand_x;
-          first.x_direction = rand;
-        }else if (rand === 1){
-          mx = fy - (fy - rand_x);
-          first.x_direction = rand;
-        }
-      }else {
-        var rand_y = Math.floor(Math.random()*my);
-        if (rand_y > my - this.minimum){ rand_y -= this.minimum; }else if (rand_y < this.minimum){ rand_y += this.minimum; }
-        for (var fx = x; fx < mx; fx++){
-          this.map[rand_y][fx] = 2;
-        }
-        var rand = Math.floor(Math.random()*2);
-        first.y = rand_y;
-        if (rand === 0){
-          y += rand_y;
-          first.y_direction = rand;
-        }else if (rand === 1){
-          my = fx - (fx - rand_y);
-          first.y_direction = rand;
+      for (var i = 0; i < this.map[rand].length; i++){
+        if (this.map[rand][i] === 2){
+          this.map[rand][i] = 2;
+          break;
+        }else {
+          this.map[rand][i] = 2;
         }
       }
-      return this.sprit_equal(count-1, x, y, mx, my, direction, first);
+    }else if (direction === 2) {//下から上
+      while (true) {
+        number++
+        if (number > 100){ return this.sprit_equal(count-1,direction); }
+        var rand = Math.floor(Math.random()*this.map[0].length);
+        if (rand > this.map[rand].length-8){ rand -= 7; }else if(rand < 8){ rand += 7; }
+        if (this.map[this.map.length-1][rand] === 2 || this.map[this.map.length-1][rand-1] === 2 || this.map[this.map.length-1][rand-2] === 2 || this.map[this.map.length-1][rand-3] === 2 || this.map[this.map.length-1][rand-4] === 2 || this.map[this.map.length-1][rand-5] === 2 || this.map[this.map.length-1][rand-6] === 2 || this.map[this.map.length-1][rand-7] === 2){
+          continue;
+        }
+        if (this.map[this.map.length-1][rand] === 2 || this.map[this.map.length-1][rand+1] === 2 || this.map[this.map.length-1][rand+2] === 2 || this.map[this.map.length-1][rand+3] === 2 || this.map[this.map.length-1][rand+4] === 2 || this.map[this.map.length-1][rand+5] === 2 || this.map[this.map.length-1][rand+6] === 2 || this.map[this.map.length-1][rand+7] === 2){
+          continue;
+        }
+        break;
+
+      }
+
+      for (var i = this.map.length-1; i >= 0; i--){
+        if (this.map[i][rand] === 2){
+          this.map[i][rand] = 2;
+          break;
+        }else {
+          this.map[i][rand] = 2;
+        }
+      }
+    }else if (direction === 3) {//左から右
+      while (true) {
+        number++
+        if (number > 100){ return this.sprit_equal(count-1,direction); }
+        var rand = Math.floor(Math.random()*this.map[0].length);
+        if (rand > this.map[rand].length-8){ rand -= 7; }else if(rand < 8){ rand += 7; }
+        if (this.map[rand][this.map[rand].length-1] === 2 || this.map[rand-1][this.map[rand].length-1] === 2 || this.map[rand-2][this.map[rand].length-1] === 2 || this.map[rand-3][this.map[rand].length-1] === 2 || this.map[rand-4][this.map[rand].length-1] === 2 || this.map[rand-5][this.map[rand].length-1] === 2 || this.map[rand-6][this.map[rand].length-1] === 2 || this.map[rand-7][this.map[rand].length-1] === 2){
+          continue;
+        }
+        if (this.map[rand][this.map[rand].length-1] === 2 || this.map[rand+1][this.map[rand].length-1] === 2 || this.map[rand+2][this.map[rand].length-1] === 2 || this.map[rand+3][this.map[rand].length-1] === 2 || this.map[rand+4][this.map[rand].length-1] === 2 || this.map[rand+5][this.map[rand].length-1] === 2 || this.map[rand+6][this.map[rand].length-1] === 2 || this.map[rand+7][this.map[rand].length-1] === 2){
+          continue;
+        }
+        break;
+
+      }
+
+      for (var i = this.map[rand].length-1; i >= 0; i--){
+        if (this.map[rand][i] === 2){
+          this.map[rand][i] = 2;
+          break;
+        }else {
+          this.map[rand][i] = 2;
+        }
+      }
     }
+    
+    return this.sprit_equal(count-1,direction);
   }
 
   room_create() {
@@ -116,7 +150,7 @@ class Createmap {
 var count = 0;
 setInterval(function () {
   count++;
-  var create = new Createmap(50,50,10);
+  var create = new Createmap(50,50);
 
   for(var y = 0; y < create.map.length; y++){
     for(var x = 0; x < create.map[y].length; x++){
