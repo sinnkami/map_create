@@ -9,8 +9,10 @@ class Createmap {
         this.map[y][x] = 9;
       }
     }
+    this.room = []
     this.sprit_equal(5);//今は縦でいfしてるけど横で胃fすればいける希ガス
     this.room_create(1,1);
+    this.road_create();
   }
 
   sprit_equal(count,direction) {
@@ -163,9 +165,6 @@ class Createmap {
       return this.room_create(x,y);
     }
 
-    console.log("x = " + x);
-    console.log("y = " + y);
-
     for (var mx = x; mx < this.map[y].length; mx++){
       if (this.map[y][mx] === 2){
         mx--;
@@ -182,12 +181,10 @@ class Createmap {
         break;
       }
     }
-    console.log("最高 " + mx);
-    console.log("最高 " + my);
-    var rand_mx = Math.floor(Math.random()*(mx - x));
-    var rand_my = Math.floor(Math.random()*(my - x));
-    if (rand_mx > (mx - x)-2){ rand_mx -= 2;}else if (rand_mx <= Math.floor((mx - x)/2)){rand_mx = Math.floor((mx - x)/2);}
-    if (rand_my > (my - y)-2){ rand_my -= 2;}else if (rand_my <= Math.floor((my - y)/2)){rand_my = Math.floor((my - y)/2);}
+    var rand_mx = Math.floor(Math.random()*(mx - x)/2)+Math.ceil((mx - x)/2)+1;
+    var rand_my = Math.floor(Math.random()*(my - y)/2)+Math.ceil((my - y)/2)+1;
+    if (rand_mx > (mx - x)){ rand_mx -= 2;}
+    if (rand_my > (my - y)){ rand_my -= 2;}
 
     for (var i = y; i < rand_my + y; i++){
       for(var j = x; j < rand_mx + x; j++){
@@ -197,6 +194,7 @@ class Createmap {
         this.map[i][j] = 0;
       }
     }
+    this.room.push({ x : x, y : y, rmx : rand_mx, rmy : rand_my,  max_x : mx, max_y : my})
 
     var y = my + 3;
 
@@ -205,10 +203,11 @@ class Createmap {
       x++;
     }
 
-    console.log(rand_mx);
-    console.log(rand_my);
-
     return this.room_create(x,y);
+  }
+
+  road_create() {
+
   }
 
 }
@@ -217,17 +216,17 @@ class Createmap {
 var count = 0;
 setInterval(function () {
   count++;
-  var create = new Createmap(50,50);
-  var test = []
-  for (var i = 0; i < create.map[0].length; i++){
-    if (i > 10){
-      test.push(i);
-    }else {
-      var self = " " + i;
-      test.push(self)
-    }
-  }
-  console.log(test.join(""));
+  var create = new Createmap(30,30);
+  // var test = []
+  // for (var i = 0; i < create.map[0].length; i++){
+  //   if (i > 10){
+  //     test.push(i);
+  //   }else {
+  //     var self = " " + i;
+  //     test.push(self)
+  //   }
+  // }
+  // console.log(test.join(""));
   for(var y = 0; y < create.map.length; y++){
     for(var x = 0; x < create.map[y].length; x++){
       if (create.map[y][x] === 9){
@@ -238,15 +237,16 @@ setInterval(function () {
         create.map[y][x] = "□";
       }
     }
-    var self = 0;
-    if (y > 9){
-      self = y;
-    }else {
-      self = " " + y;
-    }
-    console.log(self + create.map[y].join(" "));
+  //   var self = 0;
+  //   if (y > 9){
+  //     self = y;
+  //   }else {
+  //     self = " " + y;
+  //   }
+  console.log(create.map[y].join(" "))//   console.log(self + create.map[y].join(" "));
   }
   console.log("");
   console.log(count);
   console.log("");
+  console.log(create.room[10]);
 }, 1000);
