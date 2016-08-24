@@ -11,10 +11,11 @@ class Createmap {
     }
     this.room = [];
     this.sprit = [];
-    this.sprit_equal(5);//今は縦でいfしてるけど横で胃fすればいける希ガス
+    this.sprit_equal(5);
     this.room_create(1,1);
     this.road_create(0);
     this.road_connect(0);
+    this.sprit_delete();
   }
 
   sprit_equal(count,direction) {
@@ -340,20 +341,28 @@ class Createmap {
     return this.road_connect(count+1);
   }
 
-}
+  sprit_delete() {
+    for (var y = 0; y < this.map.length; y++){
+      for (var x = 0; x < this.map[y].length; x++){
+        if (this.map[y][x] === 2){
+          this.map[y][x] = 9;
+        }
+      }
+    }
+  }
 
-
-var create = new Createmap(30,30);
-
-for(var y = 0; y < create.map.length; y++){
-  for(var x = 0; x < create.map[y].length; x++){
-    if (create.map[y][x] === 9){
-      create.map[y][x] = " ";
-    }else if (create.map[y][x] === 2){
-      create.map[y][x] = " ";
-    }else if (create.map[y][x] === 0){
-      create.map[y][x] = "□";
+  node_log() {
+    for(var y = 0; y < create.map.length; y++){
+      for(var x = 0; x < create.map[y].length; x++){
+        if (create.map[y][x] === 9){
+          create.map[y][x] = " ";
+        }else if (create.map[y][x] === 2){
+          create.map[y][x] = " ";
+        }else if (create.map[y][x] === 0){
+          create.map[y][x] = "□";
+        }
+      }
+      console.log(create.map[y].join(" "));
     }
   }
 }
-console.log(create.map[y].join(" "));
